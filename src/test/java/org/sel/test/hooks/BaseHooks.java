@@ -1,20 +1,21 @@
 package org.sel.test.hooks;
 
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.BeforeAll;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import org.main.test.driver.Driver;
 import org.main.test.enums.ConfigProperties;
 import org.main.test.utils.PropertyUtils;
 
 public class BaseHooks {
 
-    @BeforeAll(order=0)
+    @Before(order=0)
     public static void setupBrowserFeatureHook() {
         Driver.initDriver(PropertyUtils.get(ConfigProperties.BROWSER));
     }
 
-    @AfterAll(order=0)
+    @After(order=0)
     public static void quitBrowserFeatureHook() {
         Driver.quitDriver();
     }
+
  }

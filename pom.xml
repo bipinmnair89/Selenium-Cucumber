@@ -14,13 +14,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
     <selenium.version>4.13.0</selenium.version>
-    <junit.version>5.10.0</junit.version>
-    <testng.version>7.8.0</testng.version>
+    <junit.version>4.13.2</junit.version>
     <cucumber.version>7.14.0</cucumber.version>
     <assertJ.version>3.24.2</assertJ.version>
     <extentreportcucumber7.version>1.14.0</extentreportcucumber7.version>
     <maven.compiler.version>3.11.0</maven.compiler.version>
     <maven.surefire.version>3.1.2</maven.surefire.version>
+    <maven.failsafe.version>3.1.2</maven.failsafe.version>
   </properties>
 
   <dependencies>
@@ -40,14 +40,10 @@
       <version>${cucumber.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>${testng.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
@@ -59,11 +55,12 @@
       <groupId>tech.grasshopper</groupId>
       <artifactId>extentreports-cucumber7-adapter</artifactId>
       <version>${extentreportcucumber7.version}</version>
-    </dependency>    <dependency>
+    </dependency>
+    <dependency>
     <groupId>org.jetbrains</groupId>
     <artifactId>annotations</artifactId>
     <version>24.0.1</version>
-  </dependency>
+    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -73,6 +70,7 @@
 
   <build>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -82,16 +80,40 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven.surefire.version}</version>
         <configuration>
+          <skip>false</skip>
+          <includes>
+            <include>**/RunnerTest.java</include>
+          </includes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven.failsafe.version}</version>
+        <configuration>
+          <skip>true</skip>
+          <includes>
+            <include>**/RunnerTest.java</include>
+          </includes>
+          <parallel>methods</parallel>
+          <useUnlimitedThreads>true</useUnlimitedThreads>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
-
-
-
 </project>
